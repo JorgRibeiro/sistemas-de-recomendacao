@@ -1,10 +1,11 @@
 """Testes do exercício de recomendação colaborativa baseado no livro.
 
 Execute na pasta atividade-1 com:
-    python -m unittest -v
+    python -m unittest discover -v
 
 O teste principal valida a sequência completa: base de avaliações, média,
 similaridade de Pearson, escolha dos vizinhos e previsão de item5 para Alice.
+Os cenários adicionais do projeto modular estão em tests/test_recommender.py.
 """
 
 import unittest

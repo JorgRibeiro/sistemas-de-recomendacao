@@ -1,0 +1,113 @@
+user_id,item_id,rating,title
+Ana,m01,5,Matrix
+Ana,m02,5,Interestelar
+Ana,m03,4,A Chegada
+Ana,m04,4,Blade Runner 2049
+Ana,m05,3,Toy Story
+Ana,m07,4,Viva
+Ana,m09,2,O Poderoso Chefão
+Bruno,m01,5,Matrix
+Bruno,m02,4,Interestelar
+Bruno,m03,5,A Chegada
+Bruno,m04,4,Blade Runner 2049
+Bruno,m05,2,Toy Story
+Bruno,m06,3,Shrek
+Bruno,m08,2,Procurando Nemo
+Bruno,m09,3,O Poderoso Chefão
+Bruno,m11,4,Parasita
+Carla,m01,4,Matrix
+Carla,m02,5,Interestelar
+Carla,m03,4,A Chegada
+Carla,m04,5,Blade Runner 2049
+Carla,m06,2,Shrek
+Carla,m07,3,Viva
+Carla,m09,2,O Poderoso Chefão
+Carla,m10,3,Cidade de Deus
+Carla,m12,4,Whiplash
+Diego,m01,4,Matrix
+Diego,m02,4,Interestelar
+Diego,m03,5,A Chegada
+Diego,m05,3,Toy Story
+Diego,m07,4,Viva
+Diego,m08,3,Procurando Nemo
+Diego,m10,2,Cidade de Deus
+Diego,m11,4,Parasita
+Diego,m12,5,Whiplash
+Elisa,m01,2,Matrix
+Elisa,m02,3,Interestelar
+Elisa,m04,2,Blade Runner 2049
+Elisa,m05,5,Toy Story
+Elisa,m06,5,Shrek
+Elisa,m07,4,Viva
+Elisa,m08,5,Procurando Nemo
+Elisa,m10,3,Cidade de Deus
+Elisa,m11,2,Parasita
+Felipe,m01,3,Matrix
+Felipe,m02,2,Interestelar
+Felipe,m03,3,A Chegada
+Felipe,m05,5,Toy Story
+Felipe,m06,4,Shrek
+Felipe,m07,5,Viva
+Felipe,m08,4,Procurando Nemo
+Felipe,m09,2,O Poderoso Chefão
+Felipe,m12,3,Whiplash
+Gabi,m02,3,Interestelar
+Gabi,m03,2,A Chegada
+Gabi,m04,2,Blade Runner 2049
+Gabi,m05,4,Toy Story
+Gabi,m06,5,Shrek
+Gabi,m07,5,Viva
+Gabi,m08,5,Procurando Nemo
+Gabi,m09,3,O Poderoso Chefão
+Gabi,m11,2,Parasita
+Gabi,m12,4,Whiplash
+Hugo,m01,2,Matrix
+Hugo,m03,3,A Chegada
+Hugo,m04,2,Blade Runner 2049
+Hugo,m05,5,Toy Story
+Hugo,m06,4,Shrek
+Hugo,m07,4,Viva
+Hugo,m08,5,Procurando Nemo
+Hugo,m10,3,Cidade de Deus
+Hugo,m11,2,Parasita
+Hugo,m12,3,Whiplash
+Iara,m01,3,Matrix
+Iara,m02,4,Interestelar
+Iara,m03,3,A Chegada
+Iara,m05,2,Toy Story
+Iara,m06,2,Shrek
+Iara,m08,3,Procurando Nemo
+Iara,m09,5,O Poderoso Chefão
+Iara,m10,5,Cidade de Deus
+Iara,m11,4,Parasita
+Iara,m12,5,Whiplash
+João,m01,2,Matrix
+João,m02,3,Interestelar
+João,m03,4,A Chegada
+João,m04,3,Blade Runner 2049
+João,m06,2,Shrek
+João,m07,3,Viva
+João,m09,5,O Poderoso Chefão
+João,m10,4,Cidade de Deus
+João,m11,5,Parasita
+João,m12,4,Whiplash
+Lia,m01,3,Matrix
+Lia,m03,4,A Chegada
+Lia,m04,4,Blade Runner 2049
+Lia,m05,2,Toy Story
+Lia,m07,3,Viva
+Lia,m08,2,Procurando Nemo
+Lia,m09,4,O Poderoso Chefão
+Lia,m10,5,Cidade de Deus
+Lia,m11,5,Parasita
+Lia,m12,5,Whiplash
+Marcos,m01,4,Matrix
+Marcos,m02,3,Interestelar
+Marcos,m04,3,Blade Runner 2049
+Marcos,m05,2,Toy Story
+Marcos,m06,3,Shrek
+Marcos,m08,2,Procurando Nemo
+Marcos,m09,5,O Poderoso Chefão
+Marcos,m10,5,Cidade de Deus
+Marcos,m11,4,Parasita
+Marcos,m12,4,Whiplash
