@@ -2,10 +2,8 @@
 
 import argparse
 import sys
-from random import Random
 
 from .data import DATA_DIR, load_builtin, load_csv, load_movielens
-from .evaluation import evaluate, train_test_split
 from .model import UserBasedRecommender
 from .similarity import average
 
@@ -21,7 +19,6 @@ def build_parser() -> argparse.ArgumentParser:
         "neighbors": "Mostrar as similaridades de um usuário",
         "predict": "Prever a nota para um item e mostrar os vizinhos",
         "recommend": "Recomendar itens ainda não avaliados",
-        "evaluate": "Medir MAE, RMSE e cobertura com holdout",
     }
     for name, description in descriptions.items():
         command = commands.add_parser(name, help=description, description=description)
@@ -40,7 +37,7 @@ def build_parser() -> argparse.ArgumentParser:
             default=str(DATA_DIR / "ml-100k"),
             help="Pasta com u.data e u.item",
         )
-        if name in {"neighbors", "predict", "recommend", "evaluate"}:
+        if name in {"neighbors", "predict", "recommend"}:
             command.add_argument(
                 "--k", type=int, default=20, help="Máximo de vizinhos por item (20)"
             )
@@ -58,25 +55,6 @@ def build_parser() -> argparse.ArgumentParser:
         if name in {"recommend", "neighbors"}:
             command.add_argument(
                 "--top", type=int, default=5, help="Quantidade de resultados (5)"
-            )
-        if name == "evaluate":
-            command.add_argument(
-                "--test-size",
-                type=float,
-                default=0.2,
-                help="Fração de teste por usuário (0.2)",
-            )
-            command.add_argument(
-                "--seed",
-                type=int,
-                default=42,
-                help="Semente da divisão e amostragem (42)",
-            )
-            command.add_argument(
-                "--limit",
-                type=int,
-                default=200,
-                help="Limite de notas de teste; 0 avalia todas (padrão: 200)",
             )
     return parser
 
@@ -155,35 +133,6 @@ def main(argv=None) -> int:
                     f"{index}. {title} [{result.item}]: {result.score:.2f} / 5 "
                     f"({len(result.neighbors)} vizinhos)"
                 )
-        elif args.command == "evaluate":
-            if args.limit < 0:
-                raise ValueError("limit deve ser zero ou positivo.")
-            train, test = train_test_split(dataset.ratings, args.test_size, args.seed)
-            if not test:
-                raise ValueError(
-                    "Não há avaliações suficientes para separar treino e teste."
-                )
-            total = len(test)
-            if args.limit and total > args.limit:
-                test = Random(args.seed).sample(test, args.limit)
-            model = UserBasedRecommender(train, k=args.k, min_common=args.min_common)
-            result = evaluate(model, test, train)
-            print(
-                f"Treino: {sum(len(row) for row in train.values())} notas | Teste reservado: {total}"
-            )
-            print(
-                f"Teste avaliado: {result.attempted} | Previsões: {result.predicted} | Cobertura: {result.coverage:.1%}"
-            )
-            if result.mae is None:
-                print(
-                    "MAE/RMSE indisponíveis: nenhuma previsão com os vizinhos disponíveis."
-                )
-            else:
-                print(f"Modelo: MAE={result.mae:.4f} | RMSE={result.rmse:.4f}")
-                print(
-                    f"Média do usuário: MAE={result.baseline_mae:.4f} | RMSE={result.baseline_rmse:.4f}"
-                )
-                print("Comparação calculada nas mesmas notas com previsão do modelo.")
         return 0
     except (ValueError, OSError) as exc:
         print(f"Erro: {exc}", file=sys.stderr)

@@ -1,4 +1,4 @@
-"""Regressões de dados esparsos, seleção de vizinhos e avaliação honesta."""
+"""Regressões de dados esparsos, seleção de vizinhos e recomendações."""
 
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
@@ -8,7 +8,6 @@ import unittest
 
 from recommender.cli import main
 from recommender.data import load_builtin, load_csv, load_movielens
-from recommender.evaluation import evaluate, train_test_split
 from recommender.model import NoNeighborsError, UserBasedRecommender
 from recommender.similarity import average, pearson
 
@@ -155,53 +154,6 @@ class DataTests(unittest.TestCase):
         )
 
 
-class EvaluationTests(unittest.TestCase):
-    def test_split_is_reproducible_disjoint_and_keeps_training_history(self):
-        ratings = load_builtin("movies").ratings
-        train, test = train_test_split(ratings, seed=42)
-        self.assertEqual((train, test), train_test_split(ratings, seed=42))
-        self.assertNotEqual(test, train_test_split(ratings, seed=7)[1])
-        self.assertEqual(sum(len(row) for row in train.values()) + len(test), 112)
-        self.assertTrue(all(train.values()))
-        for user, item, value in test:
-            self.assertNotIn(item, train[user])
-            self.assertEqual(ratings[user][item], value)
-
-    def test_split_handles_empty_and_single_rating_users(self):
-        train, test = train_test_split({"a": {"x": 5}, "b": {"y": None}})
-        self.assertEqual(train, {"a": {"x": 5}, "b": {}})
-        self.assertEqual(test, [])
-        for fraction in (0, 1, -0.2):
-            with self.assertRaises(ValueError):
-                train_test_split({}, fraction)
-
-    def test_metrics_and_baseline_have_known_manual_values(self):
-        train = {"a": {"x": 1, "y": 3}, "b": {"x": 1, "y": 3, "z": 5}}
-        result = evaluate(UserBasedRecommender(train), [("a", "z", 3)], train)
-        # previsão = 2 + (5 - 3) = 4; baseline = 2
-        self.assertEqual(
-            (result.attempted, result.predicted, result.coverage), (1, 1, 1)
-        )
-        self.assertAlmostEqual(result.mae, 1)
-        self.assertAlmostEqual(result.rmse, 1)
-        self.assertAlmostEqual(result.baseline_mae, 1)
-        self.assertAlmostEqual(result.baseline_rmse, 1)
-
-    def test_unpredictable_items_reduce_coverage_without_zero_error(self):
-        train = {"a": {"x": 1, "y": 3}, "b": {"x": 1, "y": 3, "z": 5}}
-        model = UserBasedRecommender(train)
-        result = evaluate(model, [("a", "z", 3), ("a", "unknown", 5)], train)
-        self.assertEqual(result.coverage, 0.5)
-        self.assertEqual(result.mae, 1)
-        result = evaluate(
-            UserBasedRecommender(train, min_common=3), [("a", "z", 3)], train
-        )
-        self.assertEqual(result.predicted, 0)
-        self.assertIsNone(result.mae)
-        self.assertIsNone(result.baseline_mae)
-        self.assertEqual(evaluate(model, [], train).coverage, 0)
-
-
 class CliTests(unittest.TestCase):
     def call(self, args):
         out, err = StringIO(), StringIO()
@@ -215,13 +167,12 @@ class CliTests(unittest.TestCase):
         self.assertIn("4.87 / 5", out)
         self.assertIn("User1", out)
 
-    def test_movie_recommendation_and_evaluation(self):
+    def test_movie_recommendation_and_commands(self):
         for args in (
             ["inspect", "--dataset", "movies"],
             ["neighbors", "--user", "Alice"],
             ["predict", "--user", "Alice", "--item", "item5"],
             ["recommend", "--dataset", "movies", "--user", "Ana"],
-            ["evaluate", "--dataset", "movies", "--limit", "0"],
         ):
             with self.subTest(args=args):
                 status, out, err = self.call(args)
@@ -232,7 +183,6 @@ class CliTests(unittest.TestCase):
         for args in (
             ["recommend", "--user", "unknown"],
             ["inspect", "--csv", "/nonexistent/ratings.csv"],
-            ["evaluate", "--limit", "-1"],
         ):
             with self.subTest(args=args):
                 status, _, err = self.call(args)
