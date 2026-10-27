@@ -5,3 +5,4 @@ __pycache__/
 .ruff_cache/
 atividade-1/data/ml-100k/
 *.part
+atividade-2/data/bbc-fulltext.zip
